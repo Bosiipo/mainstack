@@ -2,6 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 
 import appRoutes from './routes';
+import {connectMongoose} from './database';
 // import {sendFailureResponse, StatusCode} from './responses';
 // import errorHandler from './middlewares/errorHandler';
 
@@ -23,6 +24,7 @@ app.use(
 app.use('/v1', appRoutes);
 
 console.log('BEGIN!');
+connectMongoose();
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 // app.use((req, res, next) => {
