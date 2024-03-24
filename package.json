@@ -1,0 +1,51 @@
+{
+  "name": "mainstack",
+  "version": "1.0.0",
+  "description": "RESTful API to create and manage products",
+  "main": "index.js",
+  "scripts": {
+    "start": "node build/src/index.js",
+    "test": "jest",
+    "dev": "tsx watch src/index.ts",
+    "lint": "gts lint",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "prepare": "npm run compile",
+    "pretest": "npm run compile",
+    "posttest": "npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bosiipo/mainstack.git"
+  },
+  "author": "Bosiipo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bosiipo/mainstack/issues"
+  },
+  "homepage": "https://github.com/Bosiipo/mainstack#readme",
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "20.11.5",
+    "@types/supertest": "^6.0.2",
+    "gts": "^5.3.0",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4",
+    "ts-jest": "^29.1.2",
+    "tsx": "^4.7.1",
+    "typescript": "~5.4.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.1",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "pino": "^8.19.0",
+    "yup": "^1.4.0"
+  }
+}
