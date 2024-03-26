@@ -3,8 +3,8 @@ import morgan from 'morgan';
 
 import appRoutes from './routes';
 import {connectMongoose} from './database';
-// import {sendFailureResponse, StatusCode} from './responses';
-// import errorHandler from './middlewares/errorHandler';
+import {sendFailureResponse, StatusCode} from './responses';
+import errorHandler from './middlewares/errorHandler';
 
 const app = express();
 
@@ -27,10 +27,10 @@ console.log('BEGIN!');
 connectMongoose();
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-// app.use((req, res, next) => {
-//   return sendFailureResponse(res, StatusCode.NOT_FOUND, 'Route not found');
-// });
+app.use((req, res, next) => {
+  return sendFailureResponse(res, StatusCode.NOT_FOUND, 'Route not found');
+});
 
-// app.use(errorHandler);
+app.use(errorHandler);
 
 export default app;
