@@ -13,7 +13,8 @@
     "fix": "gts fix",
     "prepare": "npm run compile",
     "pretest": "npm run compile",
-    "posttest": "npm run lint"
+    "posttest": "npm run lint",
+    "vercel-build": "echo completed"
   },
   "repository": {
     "type": "git",

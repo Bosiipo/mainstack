@@ -1,5 +1,4 @@
 import Product from '../../models/Product.model';
-import {ValidationError} from '../../responses/errors';
 
 type deleteProductInput = {
   productId: string;
