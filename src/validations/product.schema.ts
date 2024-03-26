@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import {
-  FilterConnectionCustomerProduct,
-  MetadataCustomerProducts,
+  FILTER_CONNECTION_CUSTOMER_PRODUCT,
+  METADATA_CUSTOMER_PRODUCTS,
   OperationType,
   ProductQuantityType,
   StatusType,
@@ -36,7 +36,7 @@ export const GetProductSchema = yup.object({
 });
 
 export const GetProductsSchema = yup.object({
-  metadata: yup.mixed<MetadataCustomerProducts>(),
-  filters: yup.mixed<FilterConnectionCustomerProduct>(),
+  metadata: yup.mixed<METADATA_CUSTOMER_PRODUCTS>(),
+  filters: yup.mixed<FILTER_CONNECTION_CUSTOMER_PRODUCT>(),
   searchQuery: yup.string(),
 });

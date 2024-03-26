@@ -1,5 +1,5 @@
-import * as request from 'supertest';
-
+// eslint-disable-next-line node/no-unpublished-import
+import request from 'supertest';
 import app from '../../server';
 import {StatusCode} from '../../responses';
 import {config} from '../../config';

@@ -1,74 +1,71 @@
-/* eslint-disable prefer-const */
 import {PipelineStage} from 'mongoose';
 import Product from '../../models/Product.model';
 import {escapeRegExp} from 'lodash';
 
 enum SORT_ORDER {
-  asc,
-  desc,
+  asc = 'asc',
+  desc = 'desc',
 }
 
 enum SORT_OPTIONS_PRODUCT {
-  productName,
-  updatedAt,
-  sellingPrice,
+  productName = 'productName',
+  updatedAt = 'updatedAt',
+  sellingPrice = 'sellingPrice',
 }
 
-type SORT_PRODUCT = {
-  sortBy: SORT_OPTIONS_PRODUCT;
-  sortOrder: SORT_ORDER;
+type SORT_FIELDS_INPUT = {
+  productName?: 1 | -1;
+  updatedAt?: 1 | -1;
+  sellingPrice?: 1 | -1;
 };
 
-export type FilterConnectionCustomerProduct = {
+type SORT_PRODUCT = {
+  sortBy?: SORT_OPTIONS_PRODUCT;
+  sortOrder?: SORT_ORDER;
+};
+
+export type FILTER_CONNECTION_CUSTOMER_PRODUCT = {
   productName?: string;
   sellingPrice?: number;
   _id?: string;
 };
 
-export type MetadataCustomerProducts = {
+export type METADATA_CUSTOMER_PRODUCTS = {
   size?: number;
   page?: number;
   sortFields?: [SORT_PRODUCT];
 };
 
-type getProductsInput = {
-  metadata?: MetadataCustomerProducts;
-  filters?: FilterConnectionCustomerProduct;
+type GET_PRODUCTS_INPUT = {
+  metadata?: METADATA_CUSTOMER_PRODUCTS;
+  filters?: FILTER_CONNECTION_CUSTOMER_PRODUCT;
   searchQuery?: string;
 };
 
-type sortFieldsInput = {
-  productName?: string;
-  updatedAt?: number;
-  sellingPrice?: number;
-};
-
-// interface sortFieldsInput {
-//   [key: string]: 1 | -1 | undefined;
-// }
-
-export const getProducts = async (input: getProductsInput) => {
+export const getProducts = async (input: GET_PRODUCTS_INPUT) => {
   const {metadata = {}, filters = {}, searchQuery = ''} = input;
 
-  let {
-    sortFields = [{sortBy: 'updatedAt', sortOrder: 'desc'}],
-    size = 20,
-    page = 1,
-  } = metadata;
+  const {size = 20, page = 1} = metadata;
+
+  let {sortFields = [{sortBy: 'updatedAt', sortOrder: 'desc'}]} = metadata;
 
   let match = {};
 
-  let sortOptions = {};
+  const aggregationStage: [PipelineStage] = [
+    {
+      $match: match,
+    },
+  ];
 
   sortFields = JSON.parse(JSON.stringify(sortFields));
 
   if (sortFields && sortFields.length > 0) {
-    const sortFieldsInp: sortFieldsInput = {};
+    const sortFieldsInp: SORT_FIELDS_INPUT = {};
     sortFields.map(field => {
       const sortby = field.sortBy !== undefined ? field.sortBy : 'updatedAt';
       sortFieldsInp[sortby] = field.sortOrder === 'asc' ? 1 : -1;
     });
-    sortOptions = [{$sort: sortFieldsInp}];
+    aggregationStage.push({$sort: sortFieldsInp});
   }
 
   if (searchQuery) {
@@ -84,10 +81,7 @@ export const getProducts = async (input: getProductsInput) => {
   }
 
   const productData = await Product.aggregate([
-    {
-      $match: match,
-    },
-    sortOptions,
+    ...aggregationStage,
     {
       $facet: {
         pageInfo: [
