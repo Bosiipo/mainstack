@@ -4,14 +4,14 @@ import Product from '../../models/Product.model';
 import {escapeRegExp} from 'lodash';
 
 enum SORT_ORDER {
-  asc,
-  desc,
+  asc = 'asc',
+  desc = 'desc',
 }
 
 enum SORT_OPTIONS_PRODUCT {
-  productName,
-  updatedAt,
-  sellingPrice,
+  productName = 'productName',
+  updatedAt = 'updatedAt',
+  sellingPrice = 'sellingPrice',
 }
 
 type SORT_PRODUCT = {
