@@ -52,7 +52,11 @@ export class ProductController {
       );
     } catch (error) {
       next(error);
-      return sendFailureResponse(res, StatusCode.BAD_REQUEST, error.message);
+      return sendFailureResponse(
+        res,
+        StatusCode.BAD_REQUEST,
+        (error as Error).message
+      );
     }
   }
 
@@ -87,7 +91,11 @@ export class ProductController {
       );
     } catch (error) {
       next(error);
-      return sendFailureResponse(res, StatusCode.NOT_FOUND, error.message);
+      return sendFailureResponse(
+        res,
+        StatusCode.NOT_FOUND,
+        (error as Error).message
+      );
     }
   }
 

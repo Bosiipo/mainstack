@@ -1,11 +1,6 @@
 /* eslint-disable prefer-const */
+import {PipelineStage} from 'mongoose';
 import Product from '../../models/Product.model';
-import {
-  StatusCode,
-  sendFailureResponse,
-  sendSuccessResponse,
-} from '../../responses';
-import {ValidationError} from '../../responses/errors';
 import {escapeRegExp} from 'lodash';
 
 enum SORT_ORDER {
@@ -48,6 +43,10 @@ type sortFieldsInput = {
   sellingPrice?: number;
 };
 
+// interface sortFieldsInput {
+//   [key: string]: 1 | -1 | undefined;
+// }
+
 export const getProducts = async (input: getProductsInput) => {
   const {metadata = {}, filters = {}, searchQuery = ''} = input;
 
@@ -69,7 +68,7 @@ export const getProducts = async (input: getProductsInput) => {
       const sortby = field.sortBy !== undefined ? field.sortBy : 'updatedAt';
       sortFieldsInp[sortby] = field.sortOrder === 'asc' ? 1 : -1;
     });
-    sortOptions = {$sort: sortFieldsInp};
+    sortOptions = [{$sort: sortFieldsInp}];
   }
 
   if (searchQuery) {

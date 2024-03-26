@@ -1,5 +1,5 @@
-import express from 'express';
-import morgan from 'morgan';
+import * as express from 'express';
+import * as morgan from 'morgan';
 
 import appRoutes from './routes';
 import {connectMongoose} from './database';
@@ -23,11 +23,9 @@ app.use(
 
 app.use('/v1', appRoutes);
 
-console.log('BEGIN!');
 connectMongoose();
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-app.use((req, res, next) => {
+app.use((req, res) => {
   return sendFailureResponse(res, StatusCode.NOT_FOUND, 'Route not found');
 });
 

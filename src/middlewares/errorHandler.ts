@@ -1,4 +1,4 @@
-import express from 'express';
+import * as express from 'express';
 import logger from '../lib/logger';
 import {sendFailureResponse, StatusCode} from '../responses';
 import {AppError} from '../responses/errors';
