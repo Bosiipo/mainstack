@@ -1,4 +1,3 @@
-// eslint-disable-next-line node/no-unpublished-import
 import * as request from 'supertest';
 
 import app from '../../server';

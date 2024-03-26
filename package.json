@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "start": "node build/src/index.js",
-    "test": "jest",
     "dev": "tsx watch src/index.ts",
     "lint": "gts lint",
     "clean": "gts clean",
@@ -13,8 +12,7 @@
     "fix": "gts fix",
     "prepare": "npm run compile",
     "pretest": "npm run compile",
-    "posttest": "npm run lint",
-    "vercel-build": "echo completed"
+    "posttest": "npm run lint"
   },
   "repository": {
     "type": "git",

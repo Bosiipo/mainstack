@@ -1,16 +1,17 @@
 /* eslint-disable prefer-const */
+import {PipelineStage} from 'mongoose';
 import Product from '../../models/Product.model';
 import {escapeRegExp} from 'lodash';
 
 enum SORT_ORDER {
-  asc = 'asc',
-  desc = 'desc',
+  asc,
+  desc,
 }
 
 enum SORT_OPTIONS_PRODUCT {
-  productName = 'productName',
-  updatedAt = 'updatedAt',
-  sellingPrice = 'sellingPrice',
+  productName,
+  updatedAt,
+  sellingPrice,
 }
 
 type SORT_PRODUCT = {
@@ -36,11 +37,11 @@ type getProductsInput = {
   searchQuery?: string;
 };
 
-// type sortFieldsInput = {
-//   productName?: string;
-//   updatedAt?: number;
-//   sellingPrice?: number;
-// };
+type sortFieldsInput = {
+  productName?: string;
+  updatedAt?: number;
+  sellingPrice?: number;
+};
 
 // interface sortFieldsInput {
 //   [key: string]: 1 | -1 | undefined;
@@ -50,25 +51,25 @@ export const getProducts = async (input: getProductsInput) => {
   const {metadata = {}, filters = {}, searchQuery = ''} = input;
 
   let {
-    // sortFields = [{sortBy: 'updatedAt', sortOrder: 'desc'}],
+    sortFields = [{sortBy: 'updatedAt', sortOrder: 'desc'}],
     size = 20,
     page = 1,
   } = metadata;
 
   let match = {};
 
-  // let sortOptions = {};
+  let sortOptions = {};
 
-  // sortFields = JSON.parse(JSON.stringify(sortFields));
+  sortFields = JSON.parse(JSON.stringify(sortFields));
 
-  // if (sortFields && sortFields.length > 0) {
-  //   const sortFieldsInp: sortFieldsInput = {};
-  //   sortFields.map(field => {
-  //     const sortby = field.sortBy !== undefined ? field.sortBy : 'updatedAt';
-  //     sortFieldsInp[sortby] = field.sortOrder === 'asc' ? 1 : -1;
-  //   });
-  //   sortOptions = [{$sort: sortFieldsInp}];
-  // }
+  if (sortFields && sortFields.length > 0) {
+    const sortFieldsInp: sortFieldsInput = {};
+    sortFields.map(field => {
+      const sortby = field.sortBy !== undefined ? field.sortBy : 'updatedAt';
+      sortFieldsInp[sortby] = field.sortOrder === 'asc' ? 1 : -1;
+    });
+    sortOptions = [{$sort: sortFieldsInp}];
+  }
 
   if (searchQuery) {
     const regexMatch = {$regex: escapeRegExp(searchQuery), $options: 'i'};
@@ -86,7 +87,7 @@ export const getProducts = async (input: getProductsInput) => {
     {
       $match: match,
     },
-    // sortOptions,
+    sortOptions,
     {
       $facet: {
         pageInfo: [
