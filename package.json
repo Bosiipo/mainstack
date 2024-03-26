@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node build/src/index.js",
+    "test": "jest",
     "dev": "tsx watch src/index.ts",
     "lint": "gts lint",
     "clean": "gts clean",
